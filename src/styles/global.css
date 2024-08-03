@@ -1,0 +1,7 @@
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
