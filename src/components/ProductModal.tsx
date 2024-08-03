@@ -32,8 +32,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
           maxWidth: 800,
           width: "400px",
           borderRadius: "20px",
-          maxHeight: "80vh", // Set a max height for the modal
-          overflowY: "auto", // Allow vertical scrolling
+          maxHeight: "80vh",
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         <IconButton
