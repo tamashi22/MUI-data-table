@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import {
   DataGrid,
@@ -11,21 +11,21 @@ import ProductModal from "./ProductModal";
 import ImageModal from "./ImageModal";
 import { getProducts } from "../services/GetProducts";
 import { Product } from "../types/productTypes";
+
 export default function Table() {
   const [products, setProducts] = useState<Product[]>([]);
-
   const [openImage, setImageOpen] = useState<boolean>(false);
   const [openProduct, setProductOpen] = useState<boolean>(false);
-
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
     items: [],
   });
+
   const defaultImg =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnqtyfyQjLYxWFNbOSJotEgzxNvTg3dxACOg&s";
+
   const columns: GridColDef[] = [
     {
       field: "images",
@@ -71,13 +71,19 @@ export default function Table() {
       field: "creationAt",
       headerName: "Created At",
       width: 100,
-      valueGetter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
+      renderCell: (params) => {
+        const formattedDate = dayjs(params.value).format("DD-MM-YYYY");
+        return formattedDate;
+      },
     },
     {
       field: "updatedAt",
       headerName: "Updated At",
       width: 100,
-      valueGetter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
+      renderCell: (params) => {
+        const formattedDate = dayjs(params.value).format("DD-MM-YYYY");
+        return formattedDate;
+      },
     },
     {
       field: "category",
@@ -123,6 +129,7 @@ export default function Table() {
     setFilterModel(model);
     localStorage.setItem("filterModel", JSON.stringify(model));
   };
+
   useEffect(() => {
     const savedSortModel = localStorage.getItem("sortModel");
     const savedFilterModel = localStorage.getItem("filterModel");
@@ -133,6 +140,7 @@ export default function Table() {
     if (savedFilterModel) {
       setFilterModel(JSON.parse(savedFilterModel));
     }
+
     const fetchProducts = async () => {
       const data = await getProducts();
       setProducts(data);
